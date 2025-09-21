@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# Environment files
+.env*
+
+# Generated files
+coverage
+.nyc_output
+
+# Package files
+package-lock.json
+yarn.lock
