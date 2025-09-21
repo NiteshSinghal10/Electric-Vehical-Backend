@@ -5,6 +5,14 @@ export default [
 	js.configs.recommended,
 	...tseslint.configs.recommended,
 	{
+		files: ['src/**/*.ts', 'index.ts'], // Only lint these files
+		ignores: [
+			'dist/**',
+			'node_modules/**',
+			'*.js',
+			'**/*.js',
+			'eslint.config.js'
+		],
 		rules: {
 			// General
 			'no-unnecessary-class': [
