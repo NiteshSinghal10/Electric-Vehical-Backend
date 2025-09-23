@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose';
 import { USER_STATUS } from '../../lib';
 
+const userStatusEnum = Object.values(USER_STATUS);
+
 const phoneSchema = new Schema(
 	{
 		countryCode: {
@@ -35,8 +37,8 @@ const userSchema = new Schema(
 		},
 		status: {
 			type: String,
-			enum: USER_STATUS,
-			default: USER_STATUS[0],
+			enum: userStatusEnum,
+			default: USER_STATUS.PENDING,
 		},
 	},
 	{ timestamps: true }

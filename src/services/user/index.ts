@@ -1,3 +1,4 @@
+import { IUser } from '../../interfaces';
 import { USER } from '../../model';
 
 export const createUser = async (user: object) => {
@@ -9,9 +10,10 @@ export const getUser = async (
 	search = {},
 	projection = {},
 	options = { new: true }
-) => {
-	const user = await USER.findOne(search, projection, options);
-	return user;
+): Promise<IUser | null> => {
+	const user = await USER.findOne(search, projection, options).lean().exec();
+
+	return user as IUser | null;
 };
 
 export const getUsers = async (

@@ -1,1 +1,5 @@
-export const USER_STATUS = ['PENDING', 'ACTIVE', 'DELETED'];
+export const USER_STATUS = {
+	PENDING: 'PENDING',
+	ACTIVE: 'ACTIVE',
+	DELETED: 'DELETED',
+};
