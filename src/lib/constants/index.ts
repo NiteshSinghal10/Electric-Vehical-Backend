@@ -1,0 +1,1 @@
+export const USER_STATUS = ['PENDING', 'ACTIVE', 'DELETED'];

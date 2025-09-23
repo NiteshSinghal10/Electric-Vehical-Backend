@@ -11,7 +11,7 @@ export default [
 			'node_modules/**',
 			'*.js',
 			'**/*.js',
-			'eslint.config.js'
+			'eslint.config.js',
 		],
 		rules: {
 			// General
