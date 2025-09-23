@@ -6,9 +6,10 @@ import {
 	MESSAGES,
 	generateOtp,
 	NODE_ENV,
-	sendOtp,
+	sendSms,
 	USER_STATUS,
 	SALT_ROUNDS,
+	otpTemplate,
 } from '../../lib';
 import {
 	resendOtpValidation,
@@ -42,8 +43,8 @@ router.post('/user/sign-up', signUpValidation, async (req, res) => {
 		const user = await createUser({ name, phone, password: hashedPassword });
 		const otp = generateOtp();
 		await createOtp({ _user: user._id, otp });
-		await sendOtp(
-			otp,
+		await sendSms(
+			otpTemplate(otp),
 			user.phone?.countryCode || '',
 			user.phone?.phoneNumber || ''
 		);
@@ -55,7 +56,7 @@ router.post('/user/sign-up', signUpValidation, async (req, res) => {
 	} catch (error) {
 		const errorMessage =
 			error instanceof Error ? error.message : MESSAGES.EN.BAD_REQUEST;
-		return sendResponse(res, 400, false, errorMessage, error);
+		return sendResponse(res, 400, false, errorMessage);
 	}
 });
 
@@ -74,8 +75,9 @@ router.post('/resend-otp', resendOtpValidation, async (req, res) => {
 			createOtp({ _user, otp }),
 			getUser({ _id: _user }),
 		]);
-		await sendOtp(
-			otp,
+
+		await sendSms(
+			otpTemplate(otp),
 			response[1]?.phone?.countryCode || '',
 			response[1]?.phone?.phoneNumber || ''
 		);
@@ -86,7 +88,7 @@ router.post('/resend-otp', resendOtpValidation, async (req, res) => {
 	} catch (error) {
 		const errorMessage =
 			error instanceof Error ? error.message : MESSAGES.EN.BAD_REQUEST;
-		return sendResponse(res, 400, false, errorMessage, error);
+		return sendResponse(res, 400, false, errorMessage);
 	}
 });
 
@@ -108,7 +110,7 @@ router.get('/verify-otp', verifyOtpValidation, async (req, res) => {
 	} catch (error) {
 		const errorMessage =
 			error instanceof Error ? error.message : MESSAGES.EN.BAD_REQUEST;
-		return sendResponse(res, 400, false, errorMessage, error);
+		return sendResponse(res, 400, false, errorMessage);
 	}
 });
 
