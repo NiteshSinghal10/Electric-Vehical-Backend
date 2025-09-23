@@ -37,7 +37,7 @@ const userSchema = new Schema(
 			type: String,
 			enum: USER_STATUS,
 			default: USER_STATUS[0],
-		}
+		},
 	},
 	{ timestamps: true }
 );
