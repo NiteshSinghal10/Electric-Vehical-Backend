@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import bcrypt from 'bcrypt';
 
 import {
 	sendResponse,
@@ -7,6 +8,7 @@ import {
 	NODE_ENV,
 	sendOtp,
 	USER_STATUS,
+	SALT_ROUNDS,
 } from '../../lib';
 import {
 	resendOtpValidation,
@@ -35,7 +37,9 @@ router.post('/user/sign-up', signUpValidation, async (req, res) => {
 			throw new Error(MESSAGES.EN.USER_ALREADY_EXISTS);
 		}
 
-		const user = await createUser({ name, phone, password });
+		const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
+		const user = await createUser({ name, phone, password: hashedPassword });
 		const otp = generateOtp();
 		await createOtp({ _user: user._id, otp });
 		await sendOtp(

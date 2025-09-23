@@ -3,3 +3,5 @@ export const USER_STATUS = {
 	ACTIVE: 'ACTIVE',
 	DELETED: 'DELETED',
 };
+
+export const SALT_ROUNDS = 10;
