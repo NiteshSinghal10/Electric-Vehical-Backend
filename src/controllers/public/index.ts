@@ -151,7 +151,10 @@ router.put('/forgot-password', forgotPasswordValidation, async (req, res) => {
 	try {
 		const { phone } = req.body;
 
-		const user = await getUser({ 'phone.phoneNumber': phone.phoneNumber, 'phone.countryCode': phone.countryCode });
+		const user = await getUser({
+			'phone.phoneNumber': phone.phoneNumber,
+			'phone.countryCode': phone.countryCode,
+		});
 
 		if (!user) {
 			throw new Error(MESSAGES.EN.USER_NOT_FOUND);
@@ -165,10 +168,16 @@ router.put('/forgot-password', forgotPasswordValidation, async (req, res) => {
 			user.phone?.phoneNumber
 		);
 
-		return sendResponse(res, 200, true, MESSAGES.EN.FORGOT_PASSWORD_SUCCESSFULLY, {
-			otp: NODE_ENV === 'development' ? otp : '****',
-			user
-		});
+		return sendResponse(
+			res,
+			200,
+			true,
+			MESSAGES.EN.FORGOT_PASSWORD_SUCCESSFULLY,
+			{
+				otp: NODE_ENV === 'development' ? otp : '****',
+				user,
+			}
+		);
 	} catch (error) {
 		const errorMessage =
 			error instanceof Error ? error.message : MESSAGES.EN.BAD_REQUEST;

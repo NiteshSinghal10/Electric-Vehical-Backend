@@ -62,7 +62,10 @@ export const verifyOtpValidation = (
 		.object({
 			_user: joi.string().hex().length(24).required(),
 			otp: joi.string().required(),
-			purpose: joi.string().valid(OTP_PURPOSE.SIGN_UP, OTP_PURPOSE.FORGOT_PASSWORD).required(),
+			purpose: joi
+				.string()
+				.valid(OTP_PURPOSE.SIGN_UP, OTP_PURPOSE.FORGOT_PASSWORD)
+				.required(),
 		})
 		.validate(req.body);
 
@@ -73,7 +76,11 @@ export const verifyOtpValidation = (
 	next();
 };
 
-export const loginValidation = (req: Request, res: Response, next: NextFunction) => {
+export const loginValidation = (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	const { error } = joi
 		.object({
 			phone: joi.string().required(),
@@ -88,13 +95,19 @@ export const loginValidation = (req: Request, res: Response, next: NextFunction)
 	next();
 };
 
-export const forgotPasswordValidation = (req: Request, res: Response, next: NextFunction) => {
+export const forgotPasswordValidation = (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	const { error } = joi
 		.object({
-			phone: joi.object({
-				countryCode: joi.string().required(),
-				phoneNumber: joi.string().required(),
-			}).required(),
+			phone: joi
+				.object({
+					countryCode: joi.string().required(),
+					phoneNumber: joi.string().required(),
+				})
+				.required(),
 		})
 		.validate(req.body);
 
