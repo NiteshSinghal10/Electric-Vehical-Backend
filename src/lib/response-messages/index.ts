@@ -9,5 +9,9 @@ export const MESSAGES = {
 		OTP_VERIFIED_SUCCESSFULLY: 'OTP verified successfully',
 		PASSWORD_INVALID:
 			'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+		USER_NOT_FOUND: 'User not found',
+		INVALID_PASSWORD: 'Invalid password',
+		USER_LOGIN_SUCCESSFULLY: 'User login successfully',
+		FORGOT_PASSWORD_SUCCESSFULLY: 'Forgot password successfully',
 	},
 };

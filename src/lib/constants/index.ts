@@ -5,3 +5,8 @@ export const USER_STATUS = {
 };
 
 export const SALT_ROUNDS = 10;
+
+export const OTP_PURPOSE = {
+	SIGN_UP: 'sign-up',
+	FORGOT_PASSWORD: 'forgot-password',
+};
