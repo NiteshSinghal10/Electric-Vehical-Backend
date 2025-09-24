@@ -13,5 +13,7 @@ export const MESSAGES = {
 		INVALID_PASSWORD: 'Invalid password',
 		USER_LOGIN_SUCCESSFULLY: 'User login successfully',
 		FORGOT_PASSWORD_SUCCESSFULLY: 'Forgot password successfully',
+		TOKEN_NOT_FOUND: 'Token not found',
+		USER_PROFILE_FETCHED_SUCCESSFULLY: 'User profile fetched successfully',
 	},
 };

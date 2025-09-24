@@ -10,6 +10,8 @@ import {
 	USER_STATUS,
 	SALT_ROUNDS,
 	otpTemplate,
+	generateToken,
+	OTP_PURPOSE,
 } from '../../lib';
 import {
 	forgotPasswordValidation,
@@ -78,10 +80,11 @@ router.get('user/login', loginValidation, async (req, res) => {
 			throw new Error(MESSAGES.EN.INVALID_PASSWORD);
 		}
 
-		// TODO: Generate token and send it to the user
+		const token = generateToken({ _id: user._id });
 
 		return sendResponse(res, 200, true, MESSAGES.EN.USER_LOGIN_SUCCESSFULLY, {
 			user,
+			token,
 		});
 	} catch (error) {
 		const errorMessage =
@@ -124,8 +127,9 @@ router.post('/resend-otp', resendOtpValidation, async (req, res) => {
 
 router.get('/verify-otp', verifyOtpValidation, async (req, res) => {
 	try {
-		const { _user, otp } = req.body;
+		const { _user, otp, purpose } = req.body;
 		const existingOtp = await getOtp({ _user, otp });
+		let token;
 
 		if (!existingOtp) {
 			throw new Error(MESSAGES.EN.OTP_INVALID);
@@ -136,10 +140,20 @@ router.get('/verify-otp', verifyOtpValidation, async (req, res) => {
 			{ status: USER_STATUS.ACTIVE, 'phone.verified': true }
 		);
 
-		// TODO: if purpose is sign-up, generate token and send it to the user
+		if (purpose === OTP_PURPOSE.SIGN_UP) {
+			token = generateToken({ _id: _user });
+		}
+		// else if(purpose === OTP_PURPOSE.FORGOT_PASSWORD) {
 		// TODO: if purpose is forgot-password, generate short live token
+		// }
 
-		return sendResponse(res, 200, true, MESSAGES.EN.OTP_VERIFIED_SUCCESSFULLY);
+		return sendResponse(
+			res,
+			200,
+			true,
+			MESSAGES.EN.OTP_VERIFIED_SUCCESSFULLY,
+			token
+		);
 	} catch (error) {
 		const errorMessage =
 			error instanceof Error ? error.message : MESSAGES.EN.BAD_REQUEST;
@@ -184,5 +198,9 @@ router.put('/forgot-password', forgotPasswordValidation, async (req, res) => {
 		return sendResponse(res, 400, false, errorMessage);
 	}
 });
+
+// TODO: Create Reset Password route and generate token
+
+// TODO: Need to add sessions in the database
 
 export const publicController = router;

@@ -151,7 +151,7 @@ temp/
 tmp/
 
 # SSL certificates
-*.pem
+# *.pem
 *.key
 *.crt
 
